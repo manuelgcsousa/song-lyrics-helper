@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <title>Song Editor</title>
+    
+		<style>
+            #cover-spin {
+                position: fixed;
+                width: 100%;
+                left: 0; right: 0; top: 0; bottom: 0;
+                background-color: rgba(255,255,255,0.7);
+                z-index: 9999;
+                display: none;
+            }
+
+            @-webkit-keyframes spin {
+                from { -webkit-transform: rotate(0deg); }
+                to { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+
+            #cover-spin::after {
+                content: '';
+                display: block;
+                position: absolute;
+                left: 48%; top: 40%;
+                width: 40px; height: 40px;
+                border-style: solid;
+                border-color: black;
+                border-top-color: transparent;
+                border-width: 4px;
+                border-radius: 50%;
+                -webkit-animation: spin .8s linear infinite;
+                animation: spin .8s linear infinite;
+            }
+
+            input[type="radio"]{
+                margin: 0 5px 0 3px;
+            }
+
+            .center {
+                margin: auto;
+                width: 50%;
+                padding: 10px;
+            }
+		</style>	
+	</head>
+    <body>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+            function loading() {
+                $("#loading").show();
+                $("#content").hide();       
+            }
+
+            function getValueRadio() {
+                var radioVal = $('input:radio[name=optradio]:checked').val();
+                $('#lang_opt').val(radioVal);
+            }
+		</script>
+		
+		<div id="cover-spin"></div>
+        <br/><br/>
+        <div class="card w-75 p-3" style="margin: 0 auto; float: none; margin-bottom: 10px;">
+            <h2 align="center">Informações Base</h2>
+            <div class="card-body">
+                <form role="form" name="resumoForm" method="post" action="/">
+    	            <div class="form-group">
+                        <label for="opts"><u>Língua</u>:</label>
+                        <div id="opts">
+                            <label class="radio-inline">
+                                <input type="radio" name="optradio" value="pt" checked>Português
+                                <br/>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optradio" value="en">Inglês
+                            </label>
+    
+                            <input type="hidden" name="lang_opt" id="lang_opt">
+                        </div>
+                        <br/>
+
+                        <label for="resumo"><u>Resumo</u>:</label>
+      		            <textarea id="resumo" name="resumo" class="form-control" rows="5"></textarea>
+    	            </div>
+
+  		            <button type="submit" class="btn btn-primary" onclick="getValueRadio()">Extrair Keywords</button>
+                </form>
+            </div>
+        </div>
+	
+        {% if keywords %}
+        <br/>
+        {% if error_add %}
+        <div class="center">
+            <div align="center" class="alert alert-danger alert-dismissible fade show" role="alert">
+                Keyword inválida!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <br/>
+        {% endif %}
+        
+        <div class="card w-75 p-3" style="margin: 0 auto; float: none; margin-bottom: 10px;">
+            <h2 align="center">Keywords</h2>
+            <div class="card-body">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Adicionar Keyword
+                </button>
+                
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="label_modal" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Adicionar Keyword</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form role="form" name="addForm" method="post" action="/add">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="word" class="col-form-label">Palavra:</label>
+                                        <input type="text" class="form-control" id="word" name="word">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <form role="form" name="generateForm" method="post" action="/generate" style="float: right">
+                    <button type="submit" class="btn btn-primary" onclick="$('#cover-spin').show(0)">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        Gerar Sugestões
+                    </button>
+                </form>
+
+                <p>
+                <ul class="list-group">
+                    {% for word in keywords %}
+                    <form role="form" name="removeForm" method="post" action="/remove">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <b>{{ word }}</b>
+                            <input type="hidden" name="word" value="{{ word }}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </li>
+                    </form>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </body>
+</html>

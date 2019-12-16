@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            /* Create four equal columns that floats next to each other */
+            .column {
+                float: left;
+                width: 25%;
+                padding: 10px;
+                height: 300px;
+                /* Should be removed. Only for demonstration */
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            hr {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #333; /* Modern Browsers */
+            }
+
+            li {
+                font-size: 20px
+            }
+        </style>
+    </head>
+
+    <body>
+        <p align="center" style="font-size:40px">Worksheet</p><br/><br/>
+
+        <h1>Resumo da música</h1>
+        <p style="font-size:20px">{{ summary }}</p>
+        <br/><hr/><br/>
+
+        <h1>Keywords</h1>
+        <ol>
+            {% for word in words %}
+            <li>{{ word }}</li>
+            {% endfor %}
+        </ol>
+        <br/><hr/><br/>
+
+
+        <h1>Rimas</h1>
+        <ol>
+            {% for word in words %}
+            <b><li>{{ word }}</li></b>
+            <ul>
+                {% for rhyme in words[word]['rhymes'] %}
+                <li>{{ rhyme }}</li>
+                {% endfor %}
+            </ul>
+            <br/>
+            {% endfor %}
+        </ol>
+        <br/><hr/><br/>
+
+        <h1>Palavras Similares</h1>
+        <ol>
+            {% for word in words %}
+            <b><li>{{ word }}</li></b>
+            <ul>
+                {% for similar in words[word]['similar'] %}
+                <li>{{ similar }}</li>
+                {% endfor %}
+            </ul>
+            <br/>
+            {% endfor %}
+        </ol>
+        <br/><hr/><br/>
+        
+        <div style="page-break-before:always;">
+            <br/>
+            <h1 align="center">Letra da Música</h1>
+            <br/>
+            <hr/><br/><hr/><br/><hr/><br/><hr/><br/><hr/><br/>
+            <hr/><br/><hr/><br/><hr/><br/><hr/><br/><hr/><br/>
+            <hr/><br/><hr/><br/><hr/><br/><hr/><br/><hr/><br/>
+            <hr/><br/><hr/><br/><hr/><br/><hr/><br/><hr/><br/>
+        </div>
+    </body>
+</html>

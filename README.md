@@ -80,6 +80,4 @@ Song lyrics helper uses external API's to extract related and rhyming words (bot
 
 &nbsp;
 
-&nbsp;
-
 *University Project - Scripting no Processamento de Linguagem Natural, Universidade do Minho (2018-2019)*

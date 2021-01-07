@@ -1,6 +1,6 @@
 Jinja2==2.10
 pdfkit==0.6.1
 beautifulsoup4==4.6.3
-lxml==4.2.5
+lxml==4.6.2
 Flask==1.0.2
 Flask-Cors==3.0.7

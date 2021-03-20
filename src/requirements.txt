@@ -1,4 +1,4 @@
-Jinja2==2.10
+Jinja2==2.11.3
 pdfkit==0.6.1
 beautifulsoup4==4.6.3
 lxml==4.2.5
